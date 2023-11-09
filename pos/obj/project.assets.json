@@ -13,11 +13,11 @@
   "project": {
     "version": "1.0.0",
     "restore": {
-      "projectUniqueName": "/home/semahr/RiderProjects/pos/pos/pos.csproj",
+      "projectUniqueName": "/home/semahr/RiderProjects/pos_inventory/pos/pos.csproj",
       "projectName": "pos",
-      "projectPath": "/home/semahr/RiderProjects/pos/pos/pos.csproj",
+      "projectPath": "/home/semahr/RiderProjects/pos_inventory/pos/pos.csproj",
       "packagesPath": "/home/semahr/.nuget/packages/",
-      "outputPath": "/home/semahr/RiderProjects/pos/pos/obj/",
+      "outputPath": "/home/semahr/RiderProjects/pos_inventory/pos/obj/",
       "projectStyle": "PackageReference",
       "configFilePaths": [
         "/home/semahr/.nuget/NuGet/NuGet.Config"

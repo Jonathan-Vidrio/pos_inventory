@@ -9,113 +9,113 @@ build_property.EnforceExtendedAnalyzerRules =
 build_property._SupportedPlatformList = Linux,macOS,Windows
 build_property.RootNamespace = pos
 build_property.RootNamespace = pos
-build_property.ProjectDir = /home/semahr/RiderProjects/pos/pos/
+build_property.ProjectDir = /home/semahr/RiderProjects/pos_inventory/pos/
 build_property.RazorLangVersion = 7.0
 build_property.SupportLocalizedComponentNames = 
 build_property.GenerateRazorMetadataSourceChecksumAttributes = 
-build_property.MSBuildProjectDirectory = /home/semahr/RiderProjects/pos/pos
+build_property.MSBuildProjectDirectory = /home/semahr/RiderProjects/pos_inventory/pos
 build_property._RazorSourceGeneratorDebug = 
 
-[/home/semahr/RiderProjects/pos/pos/Pages/Category/Create.cshtml]
+[/home/semahr/RiderProjects/pos_inventory/pos/Pages/Category/Create.cshtml]
 build_metadata.AdditionalFiles.TargetPath = UGFnZXMvQ2F0ZWdvcnkvQ3JlYXRlLmNzaHRtbA==
 build_metadata.AdditionalFiles.CssScope = 
 
-[/home/semahr/RiderProjects/pos/pos/Pages/Category/Edit.cshtml]
+[/home/semahr/RiderProjects/pos_inventory/pos/Pages/Category/Edit.cshtml]
 build_metadata.AdditionalFiles.TargetPath = UGFnZXMvQ2F0ZWdvcnkvRWRpdC5jc2h0bWw=
 build_metadata.AdditionalFiles.CssScope = 
 
-[/home/semahr/RiderProjects/pos/pos/Pages/Category/Index.cshtml]
+[/home/semahr/RiderProjects/pos_inventory/pos/Pages/Category/Index.cshtml]
 build_metadata.AdditionalFiles.TargetPath = UGFnZXMvQ2F0ZWdvcnkvSW5kZXguY3NodG1s
 build_metadata.AdditionalFiles.CssScope = 
 
-[/home/semahr/RiderProjects/pos/pos/Pages/Client/Create.cshtml]
+[/home/semahr/RiderProjects/pos_inventory/pos/Pages/Client/Create.cshtml]
 build_metadata.AdditionalFiles.TargetPath = UGFnZXMvQ2xpZW50L0NyZWF0ZS5jc2h0bWw=
 build_metadata.AdditionalFiles.CssScope = 
 
-[/home/semahr/RiderProjects/pos/pos/Pages/Client/Edit.cshtml]
+[/home/semahr/RiderProjects/pos_inventory/pos/Pages/Client/Edit.cshtml]
 build_metadata.AdditionalFiles.TargetPath = UGFnZXMvQ2xpZW50L0VkaXQuY3NodG1s
 build_metadata.AdditionalFiles.CssScope = 
 
-[/home/semahr/RiderProjects/pos/pos/Pages/Client/Index.cshtml]
+[/home/semahr/RiderProjects/pos_inventory/pos/Pages/Client/Index.cshtml]
 build_metadata.AdditionalFiles.TargetPath = UGFnZXMvQ2xpZW50L0luZGV4LmNzaHRtbA==
 build_metadata.AdditionalFiles.CssScope = 
 
-[/home/semahr/RiderProjects/pos/pos/Pages/Error.cshtml]
+[/home/semahr/RiderProjects/pos_inventory/pos/Pages/Error.cshtml]
 build_metadata.AdditionalFiles.TargetPath = UGFnZXMvRXJyb3IuY3NodG1s
 build_metadata.AdditionalFiles.CssScope = 
 
-[/home/semahr/RiderProjects/pos/pos/Pages/Index.cshtml]
+[/home/semahr/RiderProjects/pos_inventory/pos/Pages/Index.cshtml]
 build_metadata.AdditionalFiles.TargetPath = UGFnZXMvSW5kZXguY3NodG1s
 build_metadata.AdditionalFiles.CssScope = 
 
-[/home/semahr/RiderProjects/pos/pos/Pages/Job/Create.cshtml]
+[/home/semahr/RiderProjects/pos_inventory/pos/Pages/Job/Create.cshtml]
 build_metadata.AdditionalFiles.TargetPath = UGFnZXMvSm9iL0NyZWF0ZS5jc2h0bWw=
 build_metadata.AdditionalFiles.CssScope = 
 
-[/home/semahr/RiderProjects/pos/pos/Pages/Job/Edit.cshtml]
+[/home/semahr/RiderProjects/pos_inventory/pos/Pages/Job/Edit.cshtml]
 build_metadata.AdditionalFiles.TargetPath = UGFnZXMvSm9iL0VkaXQuY3NodG1s
 build_metadata.AdditionalFiles.CssScope = 
 
-[/home/semahr/RiderProjects/pos/pos/Pages/Job/Index.cshtml]
+[/home/semahr/RiderProjects/pos_inventory/pos/Pages/Job/Index.cshtml]
 build_metadata.AdditionalFiles.TargetPath = UGFnZXMvSm9iL0luZGV4LmNzaHRtbA==
 build_metadata.AdditionalFiles.CssScope = 
 
-[/home/semahr/RiderProjects/pos/pos/Pages/Privacy.cshtml]
+[/home/semahr/RiderProjects/pos_inventory/pos/Pages/Privacy.cshtml]
 build_metadata.AdditionalFiles.TargetPath = UGFnZXMvUHJpdmFjeS5jc2h0bWw=
 build_metadata.AdditionalFiles.CssScope = 
 
-[/home/semahr/RiderProjects/pos/pos/Pages/Product/Create.cshtml]
+[/home/semahr/RiderProjects/pos_inventory/pos/Pages/Product/Create.cshtml]
 build_metadata.AdditionalFiles.TargetPath = UGFnZXMvUHJvZHVjdC9DcmVhdGUuY3NodG1s
 build_metadata.AdditionalFiles.CssScope = 
 
-[/home/semahr/RiderProjects/pos/pos/Pages/Product/Details.cshtml]
+[/home/semahr/RiderProjects/pos_inventory/pos/Pages/Product/Details.cshtml]
 build_metadata.AdditionalFiles.TargetPath = UGFnZXMvUHJvZHVjdC9EZXRhaWxzLmNzaHRtbA==
 build_metadata.AdditionalFiles.CssScope = 
 
-[/home/semahr/RiderProjects/pos/pos/Pages/Product/Edit.cshtml]
+[/home/semahr/RiderProjects/pos_inventory/pos/Pages/Product/Edit.cshtml]
 build_metadata.AdditionalFiles.TargetPath = UGFnZXMvUHJvZHVjdC9FZGl0LmNzaHRtbA==
 build_metadata.AdditionalFiles.CssScope = 
 
-[/home/semahr/RiderProjects/pos/pos/Pages/Product/Index.cshtml]
+[/home/semahr/RiderProjects/pos_inventory/pos/Pages/Product/Index.cshtml]
 build_metadata.AdditionalFiles.TargetPath = UGFnZXMvUHJvZHVjdC9JbmRleC5jc2h0bWw=
 build_metadata.AdditionalFiles.CssScope = 
 
-[/home/semahr/RiderProjects/pos/pos/Pages/Provider/Create.cshtml]
+[/home/semahr/RiderProjects/pos_inventory/pos/Pages/Provider/Create.cshtml]
 build_metadata.AdditionalFiles.TargetPath = UGFnZXMvUHJvdmlkZXIvQ3JlYXRlLmNzaHRtbA==
 build_metadata.AdditionalFiles.CssScope = 
 
-[/home/semahr/RiderProjects/pos/pos/Pages/Provider/Edit.cshtml]
+[/home/semahr/RiderProjects/pos_inventory/pos/Pages/Provider/Edit.cshtml]
 build_metadata.AdditionalFiles.TargetPath = UGFnZXMvUHJvdmlkZXIvRWRpdC5jc2h0bWw=
 build_metadata.AdditionalFiles.CssScope = 
 
-[/home/semahr/RiderProjects/pos/pos/Pages/Provider/Index.cshtml]
+[/home/semahr/RiderProjects/pos_inventory/pos/Pages/Provider/Index.cshtml]
 build_metadata.AdditionalFiles.TargetPath = UGFnZXMvUHJvdmlkZXIvSW5kZXguY3NodG1s
 build_metadata.AdditionalFiles.CssScope = 
 
-[/home/semahr/RiderProjects/pos/pos/Pages/Shared/_ValidationScriptsPartial.cshtml]
+[/home/semahr/RiderProjects/pos_inventory/pos/Pages/Shared/_ValidationScriptsPartial.cshtml]
 build_metadata.AdditionalFiles.TargetPath = UGFnZXMvU2hhcmVkL19WYWxpZGF0aW9uU2NyaXB0c1BhcnRpYWwuY3NodG1s
 build_metadata.AdditionalFiles.CssScope = 
 
-[/home/semahr/RiderProjects/pos/pos/Pages/Worker/Create.cshtml]
+[/home/semahr/RiderProjects/pos_inventory/pos/Pages/Worker/Create.cshtml]
 build_metadata.AdditionalFiles.TargetPath = UGFnZXMvV29ya2VyL0NyZWF0ZS5jc2h0bWw=
 build_metadata.AdditionalFiles.CssScope = 
 
-[/home/semahr/RiderProjects/pos/pos/Pages/Worker/Edit.cshtml]
+[/home/semahr/RiderProjects/pos_inventory/pos/Pages/Worker/Edit.cshtml]
 build_metadata.AdditionalFiles.TargetPath = UGFnZXMvV29ya2VyL0VkaXQuY3NodG1s
 build_metadata.AdditionalFiles.CssScope = 
 
-[/home/semahr/RiderProjects/pos/pos/Pages/Worker/Index.cshtml]
+[/home/semahr/RiderProjects/pos_inventory/pos/Pages/Worker/Index.cshtml]
 build_metadata.AdditionalFiles.TargetPath = UGFnZXMvV29ya2VyL0luZGV4LmNzaHRtbA==
 build_metadata.AdditionalFiles.CssScope = 
 
-[/home/semahr/RiderProjects/pos/pos/Pages/_ViewImports.cshtml]
+[/home/semahr/RiderProjects/pos_inventory/pos/Pages/_ViewImports.cshtml]
 build_metadata.AdditionalFiles.TargetPath = UGFnZXMvX1ZpZXdJbXBvcnRzLmNzaHRtbA==
 build_metadata.AdditionalFiles.CssScope = 
 
-[/home/semahr/RiderProjects/pos/pos/Pages/_ViewStart.cshtml]
+[/home/semahr/RiderProjects/pos_inventory/pos/Pages/_ViewStart.cshtml]
 build_metadata.AdditionalFiles.TargetPath = UGFnZXMvX1ZpZXdTdGFydC5jc2h0bWw=
 build_metadata.AdditionalFiles.CssScope = 
 
-[/home/semahr/RiderProjects/pos/pos/Pages/Shared/_Layout.cshtml]
+[/home/semahr/RiderProjects/pos_inventory/pos/Pages/Shared/_Layout.cshtml]
 build_metadata.AdditionalFiles.TargetPath = UGFnZXMvU2hhcmVkL19MYXlvdXQuY3NodG1s
 build_metadata.AdditionalFiles.CssScope = b-766u81m5w9

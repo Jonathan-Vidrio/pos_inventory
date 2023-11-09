@@ -35,6 +35,8 @@
 {
     <script>
     const id = new URLSearchParams(window.location.search).get("id");
+    console.log(id);
+    
     document.addEventListener("DOMContentLoaded", async () => {
         const nameInput = document.getElementById("nameInput");
         const descriptionInput = document.getElementById("descriptionInput");
@@ -79,9 +81,7 @@
         };
         
         const save = () => {
-            if (!validateInputs()) {
-                return;
-            }
+            if (!validateInputs()) return;
             
            const category = {
                name: nameInput.value,

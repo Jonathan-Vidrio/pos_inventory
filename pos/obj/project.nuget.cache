@@ -1,8 +1,8 @@
 {
   "version": 2,
-  "dgSpecHash": "YExeP+kmu95NOV3IRgwnQ2uc+V7sXn6DZnmXrW/UpOBmhSvxbuKHUDhrja/POqsS69h5jsyBmuupz7cgY3Hk3w==",
+  "dgSpecHash": "+jGGCwmHUpWxwsFhPYXam89LRrqqabaZy00ViPkR+FyaVuSwll5xp84TpEf3jHFwGqAntMevE3B0RpRlXy6esA==",
   "success": true,
-  "projectFilePath": "/home/semahr/RiderProjects/pos/pos/pos.csproj",
+  "projectFilePath": "/home/semahr/RiderProjects/pos_inventory/pos/pos.csproj",
   "expectedPackageFiles": [],
   "logs": []
 }
