@@ -1,0 +1,215 @@
+@page
+
+<header class="text-center mb-5">
+    <h4 class="display-4">Editar Empleado</h4>
+</header>
+
+<div class="row justify-content-center">
+    <div class="col-md-5">
+        <form>
+            <div class="mb-3">
+                <label class="form-label">Nombre(s)</label>
+                <input id="nameInput" class="form-control" placeholder="Ingresa el Nombre del Empleado"/>
+                <div class="invalid-feedback">
+                    Por favor ingresa el nombre del empleado.
+                </div>
+            </div>
+            <div class="mb-3">
+                <label class="form-label">Primer Apellido</label>
+                <input id="firstSurnameInput" class="form-control" placeholder="Ingresa el Primer Apellido"/>
+                <div class="invalid-feedback">
+                    Por favor ingresa el primer apellido del empleado.
+                </div>
+            </div>
+            <div class="mb-3">
+                <label class="form-label">Segundo Apellido</label>
+                <input id="secondSurnameInput" class="form-control" placeholder="Ingresa el Segundo Apellido"/>
+            </div>
+            <div class="mb-3">
+                <label class="form-label">Trabajo</label>
+                <select id="jobSelect" class="form-select">
+                    <!-- Opciones se agregarán dinámicamente desde JavaScript -->
+                </select>
+                <div class="invalid-feedback">
+                    Por favor selecciona el trabajo del empleado.
+                </div>
+            </div>
+            <div>
+                <label class="form-label">Salario</label>
+                <input id="salaryInput" class="form-control" readonly/>
+                <div class="invalid-feedback">
+                    Por favor selecciona el trabajo del empleado.
+                </div>
+            </div>
+            <div class="mt-4 d-flex justify-content-center">
+                <button type="button" id="saveButton" class="btn btn-primary">Guardar</button>
+            </div>
+        </form>
+    </div>
+</div>
+
+@section Scripts
+{
+    <script>
+        const id = new URLSearchParams(window.location.search).get("id");
+        console.log(id);
+        
+        document.addEventListener('DOMContentLoaded', async function () {
+            const nameInput = document.getElementById("nameInput");
+            const firstSurnameInput = document.getElementById("firstSurnameInput");
+            const secondSurnameInput = document.getElementById("secondSurnameInput");
+            const jobSelect = document.getElementById("jobSelect");
+            const salaryInput = document.getElementById("salaryInput");
+            const saveButton = document.getElementById("saveButton");
+           
+            const validateInputs = () => {
+                let isValid = true;
+                
+                // Validar Nombre
+                if (!nameInput.value.trim()) {
+                    nameInput.classList.add("is-invalid");
+                    isValid = false;
+                } else {
+                    nameInput.classList.remove("is-invalid");
+                }
+                
+                // Validar Primer Apellido
+                if (!firstSurnameInput.value.trim()) {
+                    firstSurnameInput.classList.add("is-invalid");
+                    isValid = false;
+                } else {
+                    firstSurnameInput.classList.remove("is-invalid");
+                }
+                
+                // Validar Trabajo
+                if (!jobSelect.value) {
+                    jobSelect.classList.add("is-invalid");
+                    isValid = false;
+                } else {
+                    jobSelect.classList.remove("is-invalid");
+                }
+                
+                // Validar Salario
+                if (!salaryInput.value || Number(salaryInput.value) <= 0) {
+                    salaryInput.classList.add("is-invalid");
+                    isValid = false;
+                } else {
+                    salaryInput.classList.remove("is-invalid");
+                }
+                
+                return isValid;
+            }
+
+            const loadData = async () => {
+                try {
+                    const workerResponse = await fetch(`http://localhost:5000/worker/${id}`);
+                    const workerData = await workerResponse.json();
+                    
+                    // Cargamos los trabajos antes de intentar asignarlos al select
+                    await loadJobs(); 
+                    
+                    nameInput.value = workerData.name;
+                    firstSurnameInput.value = workerData.firstSurname;
+                    secondSurnameInput.value = workerData.secondSurname;
+            
+                    // Ahora que los trabajos están cargados, podemos asignar el correcto
+                    jobSelect.value = workerData.jobId;
+                    salaryInput.value = workerData.job.salary;
+            
+                } catch (error) {
+                    console.error(error);
+                    alert("Error al obtener los datos del empleado");
+                }
+            };
+            
+            const loadJobs = async () => {
+                fetch("http://localhost:5000/job/")
+                    .then(response => {
+                        if (!response.ok) {
+                            throw new Error("Network response was not ok.");
+                        }
+                        return response.json();
+                    })
+                    .then(data => {
+                        if (data.length === 0 || data.every(job => job.status === 0)) {
+                            window.location.href = "/Job/Create";
+                            alert("No hay trabajos ni salarios disponibles, por favor registra un trabajo primero");
+                            return;
+                        }
+                        
+                        data.forEach(item => {
+                            if (item.status === 0) return;
+                            
+                            const option = document.createElement("option");
+                            option.value = item.id;
+                            option.innerText = item.name;
+                            jobSelect.appendChild(option);
+                        });
+                    })
+                    .catch(error => console.error("Error: ", error));
+            }
+            
+            const calculateSalary = () => {
+                const jobId = jobSelect.value;
+                fetch(`http://localhost:5000/job/${jobId}`)
+                    .then(response => response.json())
+                    .then(data => {
+                        salaryInput.value = data.salary;
+                    })
+                    .catch(error => console.error("Error: ", error));
+            }
+            
+            const save = () => {
+                if (!validateInputs()) return;
+                
+                const worker = {
+                    name: nameInput.value,
+                    firstSurname: firstSurnameInput.value,
+                    secondSurname: secondSurnameInput.value,
+                    job: Number(jobSelect.value)
+                }
+                
+                console.log(worker);
+                
+                fetch(`http://localhost:5000/worker/${id}`, {
+                    method: "PUT",
+                    headers: {
+                        "Content-Type": "application/json"
+                    },
+                    body: JSON.stringify(worker)
+                })
+                    .then(response => {
+                        if (!response.ok) {
+                            throw new Error("Error al guardar el Empleado");
+                        }
+                        return response.json();
+                    })
+                    .then(data => {
+                        console.log(data);
+                        alert("Empleado actualizado correctamente");
+                        window.location.href = "/Worker/Index";
+                    })
+                    .catch(error => {
+                        console.error("Error: ", error);
+                        alert("Error al guardar el Empleado");
+                    });
+            }
+            
+            saveButton.addEventListener("click", save);
+            
+            jobSelect.addEventListener("change", calculateSalary);
+                        
+                        window.onload = () => {
+                            loadData();
+                            
+                            nameInput.focus();
+                            
+                            addEventListener("keyup", event => {
+                                if (event.key === "Enter") {
+                                    save();
+                                }
+                            }); 
+                        }
+        });
+    </script>
+}

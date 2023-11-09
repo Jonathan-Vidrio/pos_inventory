@@ -1,0 +1,104 @@
+@page
+@{
+    Layout = "_Layout";
+}
+
+<header class="text-center mb-5">
+    <h4 class="display-4">Productos</h4>
+</header>
+
+<div>
+    <table class="table table-hover table-striped table-borderless text-center" id="productsTable">
+        <thead>
+        <tr>
+            <th>Nombre</th>
+            <th>Descripción</th>
+            <th>Precio</th>
+            <th>Existencias</th>
+            <th>Categoría</th>
+            <th style="width: 21%">Actions</th>
+        </tr>
+        </thead>
+        <tbody>
+        <!-- Los productos se añadirán aquí dinámicamente con JavaScript -->
+        </tbody>
+    </table>
+</div>
+
+@section Scripts
+{
+    @{await Html.RenderPartialAsync("_ValidationScriptsPartial");}
+    <script>
+        const loadData = async () => {
+            try {
+                const response = await fetch("http://localhost:5000/product/");
+                if (!response.ok) {
+                    throw new Error("Error al obtener los datos de la API");
+                }
+        
+                const data = await response.json(); // Convierte la respuesta en un objeto JSON
+                const table = document.getElementById("productsTable");
+                const tbody = table.querySelector("tbody");
+        
+                tbody.innerHTML = '';
+        
+                data.forEach(item => {
+                    const categoryInfo = item.category && item.category.status === 1 ? `
+                        <td>${item.category.name}</td>
+                    ` : `
+                        <td>N/A</td>
+                    `;
+                    
+                    const row = document.createElement("tr");
+                    row.innerHTML = `
+                        <td>${item.name}</td>
+                        <td>${item.description}</td>
+                        <td>${item.price}</td>
+                        <td>${item.stock}</td>
+                        ${categoryInfo}
+                        <td>
+                            <a class="btn btn-secondary m-1" href="/Product/Details?id=${item._id}">
+                                <i class="fa fa-eye"></i> Detalles
+                            </a>
+                            <a class="btn btn-primary m-1" href="/Product/Edit?id=${item._id}">
+                                <i class="fa fa-edit"></i> Edit
+                            </a>
+                            <a class="btn btn-danger m-1" onclick="remove('${item._id}')" 
+                                <i class="fa fa-trash"></i> Eliminar
+                            </a>
+                        </td>
+                    `;
+                    tbody.appendChild(row);
+                });
+            } catch (error) {
+                console.log("[ERROR] - Error: ", error);
+            }
+        }
+        
+        window.onload = loadData();
+        
+        const remove = (id) => {
+            if (confirm("¿Estás seguro que deseas eliminar este Producto?")) {
+                fetch(`http://localhost:5000/product/${id}`, {
+                    method: "DELETE",
+                    headers: {
+                        "Content-Type": "application/json"
+                    }
+                })
+                .then(response => {
+                    if (!response.ok) {
+                        throw new Error('Error al eliminar el producto');
+                    }
+                    return response.json();
+                })
+                .then(() => {
+                    console.log("Producto eliminado con éxito");
+                    loadData();
+                })
+                .catch(error => {
+                    console.error("Error al eliminar producto: ", error);
+                });
+            }
+        }
+    </script>
+}

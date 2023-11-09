@@ -1,0 +1,104 @@
+@page
+@{
+    Layout = "_Layout";
+}
+
+<header class="text-center mb-5">
+    <h4 class="display-4">Empleados</h4>
+</header>
+
+<div>
+    <table class="table table-hover table-borderless table-striped text-center" id="workersTable">
+        <thead>
+        <tr>
+            <th>Nombre</th>
+            <th>Primer Apellido</th>
+            <th>Segundo Apellido</th>
+            <th>Trabajo</th>
+            <th>Salario</th>
+            <th style="width: 15%">Actions</th>
+        </tr>
+        </thead>
+        <tbody>
+        <!-- Los productos se añadirán aquí dinámicamente con JavaScript -->
+        </tbody>
+    </table>
+</div>
+
+@section Scripts
+{
+    @{await Html.RenderPartialAsync("_ValidationScriptsPartial");}
+    <script>
+        const loadData = async () => {
+            const response = await fetch("http://localhost:5000/worker/");
+            try {
+                if (!response.ok) {
+                    throw new Error("Error al obtener los datos de la API");
+                }
+                
+                const data = await response.json();
+                const table = document.getElementById("workersTable");
+                const tbody = table.querySelector("tbody");
+                
+                tbody.innerHTML = "";
+                
+                data.forEach(item => {
+                    const jobInfo = item.job && item.job.status === 1 ? `
+                        <td>${item.job.name}</td>
+                        <td>$${item.job.salary}</td>
+                    ` : `
+                        <td>N/A</td>
+                        <td>N/A</td>
+                    `;
+                    
+                    const row = document.createElement("tr");
+                    row.innerHTML = `
+                        <td>${item.name}</td>
+                        <td>${item.firstSurname}</td>
+                        <td>${item.secondSurname}</td>
+                        ${jobInfo}
+                        <td>
+                            <a class="btn btn-primary m-1" href="/Worker/Edit?id=${item.id}">
+                                <i class="fa fa-edit"></i> Editar
+                            </a>
+                            <button class="btn btn-danger m-1" onclick="remove(${item.id})">
+                                <i class="fa fa-trash"></i> Eliminar
+                            </button>
+                        </td>
+                    `;
+                    tbody.appendChild(row);
+                });
+            } catch (e) {
+                console.log("Error: ", e);
+            }
+        }
+        
+        const remove = (id) => {
+            if (confirm("¿Estás seguro de eliminar este elemento?")) {
+                fetch(`http://localhost:5000/worker/${id}`, {
+                    method: "DELETE",
+                    headers: {
+                        "Content-Type": "application/json"
+                    }
+                })
+                .then(response => {
+                    if (!response.ok) {
+                        throw new Error("Error al eliminar el Empleado");
+                    }
+                    return response.json();
+                })
+                .then(() => {
+                    console.log("Empleado eliminado con éxito");
+                    loadData();
+                })
+                .catch(error => {
+                    console.error("Error al eliminar elemento: ", error);
+                });
+            }
+        }
+        
+        window.onload = () => {
+            loadData();
+        }
+    </script>
+}

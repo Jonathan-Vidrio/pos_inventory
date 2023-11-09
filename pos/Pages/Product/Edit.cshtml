@@ -1,0 +1,281 @@
+@page
+
+<header class="text-center mb-5">
+    <h4 class="display-4">Editar Producto</h4>
+</header>
+
+<div class="row justify-content-center">
+    <div class="col-md-5">
+        <form>
+            <div class="mb-3">
+                <label class="form-label">Nombre</label>
+                <input id="nameInput" class="form-control" placeholder="Ingresa el Nombre del producto"/>
+                <div class="invalid-feedback">
+                    Por favor ingresa el nombre del producto.
+                </div>
+            </div>
+            <div class="mb-3">
+                <label class="form-label">Descripción</label>
+                <input id="descriptionInput" class="form-control" placeholder="Descripción del producto"/>
+                <div class="invalid-feedback">
+                    Por favor ingresa la descripción del producto.
+                </div>
+            </div>
+            <div class="mb-3">
+                <label class="form-label">Precio</label>
+                <div class="input-group">
+                    <span class="input-group-text">$</span>
+                    <input id="priceInput" class="form-control" placeholder="0.00" type="number"/>
+                    <div class="invalid-feedback">
+                        Por favor ingresa un precio del producto válido.
+                    </div>
+                </div>
+            </div>
+            <div class="mb-3">
+                <label class="form-label">Existencias</label>
+                <input id="stockInput" class="form-control" placeholder="0" type="number"/>
+                <div class="invalid-feedback">
+                    Por favor ingresa un valor válido.
+                </div>
+            </div>
+            <div class="mb-3">
+                <label class="form-label">Categoría</label>
+                <select id="categorySelect" class="form-select">
+                    <!-- Opciones se agregarán dinámicamente desde JavaScript -->
+                </select>
+                <div class="invalid-feedback">
+                    Por favor selecciona una categoría.
+                </div>
+            </div>
+            <div class="mb-3">
+                <label class="form-label">Proveedor(es)</label>
+                <div id="providerCheckboxes">
+                    <!-- Casillas de verificación se agregarán dinámicamente desde JavaScript -->
+                </div>
+                <div id="providerError" class="text-danger" style="display: none;">Selecciona al menos un proveedor.</div>
+            </div>
+            <div class="mt-4 d-flex justify-content-center">
+                <button type="button" id="saveButton" class="btn btn-primary">Guardar</button>
+            </div>
+        </form>
+    </div>
+</div>
+
+@section Scripts
+{
+    @{await Html.RenderPartialAsync("_ValidationScriptsPartial");}
+    <script>
+        const id = new URLSearchParams(window.location.search).get("id");
+        
+        document.addEventListener("DOMContentLoaded", async () => {
+            const nameInput = document.getElementById("nameInput");
+            const descriptionInput = document.getElementById("descriptionInput");
+            const priceInput = document.getElementById("priceInput");
+            const stockInput = document.getElementById("stockInput");
+            const categorySelect = document.getElementById("categorySelect");
+            const providerCheckboxes = document.querySelectorAll("#providerCheckboxes .form-check-input:checked");
+            const saveButton = document.getElementById("saveButton");
+            
+            const validateInputs = () => {
+                let isValid = true;
+            
+                // Validar Nombre
+                if (!nameInput.value.trim()) {
+                    nameInput.classList.add("is-invalid");
+                    isValid = false;
+                } else {
+                    nameInput.classList.remove("is-invalid");
+                }
+            
+                // Validar Descripción
+                if (!descriptionInput.value.trim()) {
+                    descriptionInput.classList.add("is-invalid");
+                    isValid = false;
+                } else {
+                    descriptionInput.classList.remove("is-invalid");
+                }
+            
+                // Validar Precio
+                if (!priceInput.value.trim() || Number(priceInput.value) <= 0) {
+                    priceInput.classList.add("is-invalid");
+                    isValid = false;
+                } else {
+                    priceInput.classList.remove("is-invalid");
+                }
+                
+                // Validate Stock
+                if (!stockInput.value.trim() || Number(stockInput.value) < 0) {
+                    stockInput.classList.add("is-invalid");
+                    isValid = false;
+                } else {
+                    stockInput.classList.remove("is-invalid");
+                }
+            
+                // Validar Categoría
+                if (!categorySelect.value) {
+                    categorySelect.classList.add("is-invalid");
+                    isValid = false;
+                } else {
+                    categorySelect.classList.remove("is-invalid");
+                }
+            
+                // Validar Proveedor(es)
+                const providerCheckboxes = document.querySelectorAll("#providerCheckboxes .form-check-input");
+                const isAnyProviderChecked = Array.from(providerCheckboxes).some(checkbox => checkbox.checked);
+                if (!isAnyProviderChecked) {
+                    // Asumiendo que hay un elemento para mostrar el error de validación para los proveedores
+                    const providerErrorDisplay = document.getElementById('providerError'); // Este ID debe existir en tu HTML
+                    providerErrorDisplay.style.display = 'block'; // Mostrar mensaje de error
+                    isValid = false;
+                } else {
+                    const providerErrorDisplay = document.getElementById('providerError'); // Este ID debe existir en tu HTML
+                    providerErrorDisplay.style.display = 'none'; // Ocultar mensaje de error
+                }
+            
+                return isValid;
+            };
+
+            const loadData = () => {
+                fetch(`http://localhost:5000/product/${id}`)
+                    .then(response => response.json())
+                    .then(async data => {
+                        nameInput.value = data.name;
+                        descriptionInput.value = data.description;
+                        priceInput.value = data.price;
+                        stockInput.value = data.stock;
+                        await loadCategories();
+                        categorySelect.value = data.category._id;
+            
+                        await loadProviders(data.provider); // Pasamos los proveedores actuales como argumento
+                    })
+                    .catch(error => console.error("Error al obtener producto: ", error));
+            }
+        
+            const loadCategories = () => {
+                fetch("http://localhost:5000/category/")
+                    .then(response => {
+                        if (!response.ok) {
+                            throw new Error("Network response was not ok.");
+                        }
+                        return response.json();
+                    })
+                    .then(data => {
+                        if (data.length === 0 || data.every(category => category.status === 0)) {
+                            window.location.href = "/Category/Create";
+                            alert("No hay categorías disponibles, por favor crea una categoría primero");
+                            return;
+                        }
+                        
+                        data.forEach(category => {
+                            if (category.status === 0) return;
+                            
+                            const option = document.createElement("option");
+                            option.value = category._id;
+                            option.textContent = category.name;
+                            categorySelect.appendChild(option);
+                        });
+                    })
+                    .catch(error => console.error("Error al cargar categorías: ", error));
+            }
+     
+            const loadProviders = (currentProviders) => {
+                console.log(currentProviders);
+                fetch("http://localhost:5000/provider/")
+                    .then(response => {
+                        if (!response.ok) {
+                            throw new Error('Network response was not ok.');
+                        }
+                        return response.json();
+                    })
+                    .then(data => {
+                        if (data.length === 0 || data.every(provider => provider.status === 0)) {
+                            window.location.href = "/Provider/Create";
+                            alert("No hay proveedores disponibles, por favor crea un proveedor primero");
+                            return;
+                        }
+                        
+                        const providerCheckboxes = document.getElementById("providerCheckboxes");
+                        data.forEach(provider => {
+                            if (provider.status === 0) return;
+                            
+                            const checkboxContainer = document.createElement("div");
+                            checkboxContainer.className = "form-check";
+                
+                            const checkbox = document.createElement("input");
+                            checkbox.type = "checkbox";
+                            checkbox.className = "form-check-input";
+                            checkbox.value = provider._id;
+                            checkbox.id = "provider" + provider._id;  // Por ejemplo: provider5f4dcc3b5aa765d61d8327deb882cf99
+                
+                            const label = document.createElement("label");
+                            label.className = "form-check-label";
+                            label.htmlFor = checkbox.id;
+                            label.textContent = provider.name;
+                
+                            checkboxContainer.appendChild(checkbox);
+                            checkboxContainer.appendChild(label);
+                            providerCheckboxes.appendChild(checkboxContainer);
+                        });
+            
+                        // Después de crear las casillas, establece la selección basándote en los proveedores actuales
+                        currentProviders.forEach(provider => {
+                            console.log(provider._id);
+                            const providerCheckbox = document.getElementById("provider" + provider._id);
+                            if (providerCheckbox) {
+                                providerCheckbox.checked = true;
+                            }
+                        });
+                    })
+                    .catch(error => console.error("Error al cargar proveedores: ", error));
+            }
+        
+            const save = () => {
+                if (!validateInputs()) return;
+                
+                const providerCheckboxes = document.querySelectorAll("#providerCheckboxes .form-check-input:checked");
+                const selectedProviders = Array.from(providerCheckboxes).map(checkbox => checkbox.value);
+                console.log(selectedProviders);
+                
+                const product = {
+                    name: nameInput.value,
+                    description: descriptionInput.value,
+                    price: priceInput.value,
+                    stock: stockInput.value,
+                    category: categorySelect.value,
+                    provider: selectedProviders
+                }
+                
+                console.log(product);
+                
+                fetch(`http://localhost:5000/product/${id}`, {
+                    method: "PUT",
+                    headers: {
+                        "Content-Type": "application/json"
+                    },
+                    body: JSON.stringify(product)              
+                })
+                    .then(response => response.json())
+                    .then(data => {
+                        alert("Producto actualizado con éxito")
+                        window.location.href = "/Product/Index/";
+                    })
+                    .catch(error => console.error("Error al editar producto: ", error));
+            }
+
+            saveButton.addEventListener("click", save);
+            
+            window.onload = () => {
+                loadData();
+                
+                nameInput.focus();
+                
+                addEventListener("keyup", event => {
+                    if (event.key === "Enter") {
+                        save();
+                    }
+                }); 
+            }
+            
+        });
+    </script>
+}

@@ -1,0 +1,93 @@
+@page
+@{
+    Layout = "_Layout";
+}
+
+<header class="text-center mb-5">
+    <h4 class="display-4">Trabajos</h4>
+</header>
+
+<div>
+    <table class="table table-hover table-borderless table-striped text-center" id="jobsTable">
+        <thead>
+        <tr>
+            <th>Nombre</th>
+            <th>Desripción</th>
+            <th>Salario</th>
+            <th style="width: 14%">Actions</th>
+        </tr>
+        </thead>
+        <tbody>
+        <!-- Los productos se añadirán aquí dinámicamente con JavaScript -->
+        </tbody>
+    </table>
+</div>
+
+@section Scripts
+{
+    @{await Html.RenderPartialAsync("_ValidationScriptsPartial");}
+    <script>
+        const loadData = async () => {
+            try {
+                const response = await fetch(`http://localhost:5000/job/`);
+                if (!response.ok) {
+                    throw new Error("Error al obtener los datos de la API");
+                }
+                
+                const data = await response.json();
+                const table = document.getElementById("jobsTable");
+                const tbody = table.querySelector("tbody");
+                
+                tbody.innerHTML = "";
+                
+                data.forEach(item => {
+                    const row =  document.createElement("tr");
+                    row.innerHTML = `
+                        <td>${item.name}</td>
+                        <td>${item.description}</td>
+                        <td>$${item.salary}</td>
+                        <td>
+                            <a class="btn btn-primary m-1" href="/Job/Edit?id=${item.id}">
+                                <i class="fa fa-edit"></i> Edit
+                            </a>
+                            <a class="btn btn-danger m-1" onclick="remove('${item.id}')">
+                                <i class="fa fa-trash"></i> Eliminar
+                            </a>
+                        <td>
+                    `;
+                    tbody.appendChild(row);
+                });
+            } catch (e) {
+                console.log(`[ERROR] - ${e}`);                
+            }
+        }
+        
+        const remove = (id) => {
+            if (confirm("¿Estás seguro que deseas eliminar esta Categoría?")) {
+                fetch(`http://localhost:5000/job/${id}`, {
+                    method: "DELETE",
+                    headers: {
+                        "Content-Type": "application/json"
+                    }
+                })
+                .then(response => {
+                    if (!response.ok) {
+                        throw new Error('Error al eliminar la cetegoría');
+                    }
+                    return response.json();
+                })
+                .then(() => {
+                    console.log("Categoría eliminada con éxito");
+                    loadData();
+                })
+                .catch(error => {
+                    console.error("Error al eliminar categoría: ", error);
+                });
+            }
+        }
+        
+        window.onload = () => {
+            loadData();
+        }
+     </script>
+}

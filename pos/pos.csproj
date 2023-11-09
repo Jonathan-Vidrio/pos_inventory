@@ -1,0 +1,15 @@
+<Project Sdk="Microsoft.NET.Sdk.Web">
+
+    <PropertyGroup>
+        <TargetFramework>net7.0</TargetFramework>
+        <Nullable>enable</Nullable>
+        <ImplicitUsings>enable</ImplicitUsings>
+    </PropertyGroup>
+
+    <ItemGroup>
+      <_ContentIncludedByDefault Remove="wwwroot\js\category\index.js" />
+      <_ContentIncludedByDefault Remove="wwwroot\js\job\index.js" />
+      <_ContentIncludedByDefault Remove="wwwroot\js\provider\index.js" />
+    </ItemGroup>
+
+</Project>

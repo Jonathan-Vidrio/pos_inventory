@@ -1,0 +1,105 @@
+@page
+@{
+    Layout = "_Layout";
+}
+
+<header class="text-center mb-5">
+    <h4 class="display-4">Detalles del Producto</h4>
+</header>
+
+<div class="row justify-content-center">
+    <div class="col-md-5">
+        <form id="editProductForm">
+            <div class="mb-3">
+                <label class="form-label">Nombre</label>
+                <input id="nameInput" class="form-control" readonly/>
+            </div>
+            <div class="mb-3">
+                <label class="form-label">Descripción</label>
+                <input id="descriptionInput" class="form-control" readonly/>
+            </div>
+            <div class="mb-3">
+                <label class="form-label">Precio</label>
+                <div class="input-group">
+                    <span class="input-group-text">$</span>
+                    <input id="priceInput" class="form-control" readonly/>
+                </div>
+            </div>
+            <div class="mb-3">
+                <label class="form-label">Existencias</label>
+                <input id="stockInput" class="form-control" readonly/>
+            </div>
+            <div class="mb-3">
+                <label class="form-label">Categoría</label>
+                <input id="categoryInput" class="form-control" readonly/>
+            </div>
+            <div class="mb-3">
+                <label class="form-label">Proveedor(es)</label>
+                <div id="providerCheckboxes">
+                    <!-- Casillas de verificación se agregarán dinámicamente desde JavaScript -->
+                </div>
+            </div>
+            <div class="mt-4 d-flex justify-content-center">
+                <button type="button" id="editButton" class="btn btn-primary">Editar</button>
+            </div>
+        </form>
+    </div>
+</div>
+
+@section Scripts
+{
+    @{await Html.RenderPartialAsync("_ValidationScriptsPartial");}
+    <script>
+        const id = new URLSearchParams(window.location.search).get("id");
+        
+        document.addEventListener('DOMContentLoaded', async function () {
+            const nameInput = document.getElementById("nameInput");
+            const descriptionInput = document.getElementById("descriptionInput");
+            const priceInput = document.getElementById("priceInput");
+            const stockInput = document.getElementById("stockInput");
+            const categoryInput = document.getElementById("categoryInput");
+            const editButton = document.getElementById("editButton");
+            const providerCheckboxes = document.getElementById("providerCheckboxes");
+            
+            const loadData = () => {
+                fetch(`http://localhost:5000/product/${id}`)
+                    .then(response => response.json())
+                    .then(async data => {
+                        nameInput.value = data.name;
+                        descriptionInput.value = data.description;
+                        priceInput.value = data.price;
+                        stockInput.value = data.stock;
+                        if (data.category.status === 0) {
+                            categoryInput.value = "N/A";
+                        } else {
+                            categoryInput.value = data.category.name;
+                        }
+                        loadProviders(data.provider);
+                    })
+                    .catch(error => console.error("Error al obtener producto: ", error));
+            }
+     
+            const loadProviders = (provider) => {
+                provider.forEach(provider => {
+                    if (provider.status === 0) return;
+                    
+                    const providerInput = document.createElement("input");
+                    providerInput.type = "text";
+                    providerInput.value = provider.name;
+                    providerInput.classList.add("form-control");
+                    providerInput.classList.add("mb-2");
+                    providerInput.readOnly = true;
+                    providerCheckboxes.appendChild(providerInput);
+                });
+            }
+            
+            editButton.addEventListener("click", () => {
+                window.location.href = `/Product/Edit?id=${id}`;
+            });
+            
+            window.onload = () => {
+                loadData();
+            }
+        });
+    </script>
+}

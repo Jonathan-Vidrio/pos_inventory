@@ -1,0 +1,88 @@
+@page
+@{
+    Layout = "_Layout";
+}
+
+<header class="text-center mb-5">
+    <h4 class="display-4">Proveedores</h4>
+</header>
+
+<div>
+    <table class="table table-hover table-borderless table-striped text-center" id="providersTable">
+        <thead>
+        <tr>
+            <th>Nombre</th>
+            <th>Primer Apellido</th>
+            <th>Segundo Apellido</th>
+            <th>Teléfono</th>
+            <th style="width: 14%">Actions</th>
+        </tr>
+        </thead>
+        <tbody>
+        <!-- Los productos se añadirán aquí dinámicamente con JavaScript -->
+        </tbody>
+    </table>
+</div>
+
+@section Scripts {
+    <script>
+        const loadData = async () => {
+            try {
+                const response = await fetch("http://localhost:5000/provider/");
+                if (!response.ok) {
+                    throw new Error("Error al obtener los datos de la API");
+                }
+                
+                const data = await response.json();
+                const table = document.getElementById("providersTable");
+                const tbody = table.querySelector("tbody");
+                
+                data.forEach(item => {
+                    const row = document.createElement("tr");
+                    row.innerHTML = `
+                        <td>${item.name}</td>
+                        <td>${item.firstSurname}</td>
+                        <td>${item.secondSurname}</td>
+                        <td>${item.phone}</td>
+                        <td>
+                            <a class="btn btn-primary m-1" href="/Provider/Edit?id=${item._id}">
+                                <i class="fa fa-edit"></i> Edit
+                            </a>
+                            <a class="btn btn-danger m-1" onclick="remove('${item._id}')" 
+                                <i class="fa fa-trash"></i> Eliminar
+                            </a>
+                        </td>
+                    `;
+                    tbody.appendChild(row);
+                });
+            } catch (e) {
+                console.error("Error: ", e);
+            }
+        }
+        
+        const remove = (id) => {
+            if (confirm("¿Estás seguro que deseas eliminar esta Categoría?")) {
+                fetch(`http://localhost:5000/provider/${id}`, {
+                    method: "DELETE"
+                })
+                .then(response => {
+                    if (!response.ok) {
+                        throw new Error('Network response was not ok ' + response.statusText);
+                    }
+                    return response.json();
+                })
+                .then(data => {
+                        window.location.href = "/Provider/Index";
+                })
+                .catch(error => {
+                    console.error("Error al eliminar el proveedor:", error);
+                    alert("Error al eliminar el proveedor: " + error.message);
+                });
+            }
+        }
+        
+        window.onload = () => {
+            loadData();
+        }
+    </script>
+}

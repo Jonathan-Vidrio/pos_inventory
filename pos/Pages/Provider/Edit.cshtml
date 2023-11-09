@@ -1,0 +1,109 @@
+@page
+
+<header class="text-center mb-5">
+    <h4 class="display-4">Editar Proveedor</h4>
+</header>
+
+<div class="row justify-content-center">
+    <div class="col-md-5">
+        <form>
+            <div class="mb-3">
+                <label class="form-label">Nombre</label>
+                <input id="nameInput" class="form-control" placeholder="Ingresa el Nombre"/>
+            </div>
+            <div class="mb-3">
+                <label class="form-label">Primero Apellido</label>
+                <input id="firstSurnameInput" class="form-control" placeholder="Ingresa el Primer Apellido"/>
+            </div>
+            <div class="mb-3">
+                <label class="form-label">Segundo Apellido</label>
+                <input id="secondSurnameInput" class="form-control" placeholder="Ingresa el Segundo Apellido"/>
+            </div>
+            <div class="mb-3">
+                <label class="form-label">Número de Teléfono</label>
+                <input id="phoneInput" class="form-control" placeholder="Ingresa el Número de Teléfono"/>
+            </div>
+            <div class="mt-4 d-flex justify-content-center">
+                <button type="button" id="saveButton" class="btn btn-primary">Guardar</button>
+            </div>
+        </form>
+    </div>
+</div>
+
+@section Scripts
+{
+    <script>
+    const id = new URLSearchParams(window.location.search).get("id");
+    document.addEventListener("DOMContentLoaded", async () => {
+        const nameInput = document.getElementById("nameInput");
+        const firstSurnameInput = document.getElementById("firstSurnameInput");
+        const secondSurnameInput = document.getElementById("secondSurnameInput");
+        const phoneInput = document.getElementById("phoneInput");
+        const saveButton = document.getElementById("saveButton");
+        
+        const loadData = () => {
+            fetch(`http://localhost:5000/provider/${id}`)
+            .then(response => {
+                if (!response.ok) {
+                    throw new Error("Error al obtener los datos de la API");
+                }
+                
+                return response.json();
+            })
+            .then(data => {
+                nameInput.value = data.name;
+                firstSurnameInput.value = data.firstSurname;
+                secondSurnameInput.value = data.secondSurname;
+                phoneInput.value = data.phone;
+            })
+            .catch(e => {
+                console.error("Error: ", e);
+            });
+        }
+        
+        const save = () => {
+            const provider = {
+                name: nameInput.value,
+                firstSurname: firstSurnameInput.value,
+                secondSurname: secondSurnameInput.value,
+                phone: phoneInput.value
+            }
+            
+            fetch(`http://localhost:5000/provider/${id}`, {
+                method: "PUT",
+                headers: {
+                    "Content-Type": "application/json"
+                },
+                body: JSON.stringify(provider)
+            })
+            .then(response => {
+                if (!response.ok) {
+                    throw new Error('Network response was not ok ' + response.statusText);
+                }
+                return response.json();
+            })
+            .then(data => {
+                    window.location.href = "/Provider/Index";
+            })
+            .catch(error => {
+                console.error("Error al crear el proveedor:", error);
+                alert("Error al crear el proveedor: " + error.message);
+            });
+        }
+        
+        saveButton.addEventListener("click", save);
+        
+        window.onload = () => {
+            loadData();
+            
+            nameInput.focus();
+                            
+                            addEventListener("keyup", event => {
+                                if (event.key === "Enter") {
+                                    save();
+                                }
+                            });
+        }
+    });
+    </script>
+}
