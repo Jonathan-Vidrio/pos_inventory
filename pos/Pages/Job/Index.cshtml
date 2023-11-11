@@ -1,7 +1,4 @@
 @page
-@{
-    Layout = "_Layout";
-}
 
 <header class="text-center mb-5">
     <h4 class="display-4">Trabajos</h4>
@@ -14,7 +11,7 @@
             <th>Nombre</th>
             <th>Desripción</th>
             <th>Salario</th>
-            <th style="width: 14%">Actions</th>
+            <th style="width: 15%">Actions</th>
         </tr>
         </thead>
         <tbody>
@@ -48,7 +45,7 @@
                         <td>$${item.salary}</td>
                         <td>
                             <a class="btn btn-primary m-1" href="/Job/Edit?id=${item.id}">
-                                <i class="fa fa-edit"></i> Edit
+                                <i class="fa fa-edit"></i> Editar
                             </a>
                             <a class="btn btn-danger m-1" onclick="remove('${item.id}')">
                                 <i class="fa fa-trash"></i> Eliminar
