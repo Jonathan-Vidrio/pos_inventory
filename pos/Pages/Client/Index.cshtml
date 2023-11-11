@@ -30,7 +30,7 @@
     <script>
         const loadData = async () => {
             try {
-                const response = await fetch("http://localhost:5000/client/");
+                const response = await fetch("https://calm-peak-00131-243c55c55205.herokuapp.com/client/");
                 if (!response.ok) {
                     throw new Error("Error al obtener los datos de la API");
                 }
@@ -67,7 +67,7 @@
         
         const remove = (id) => {
             if (confirm("¿Estás seguro de que deseas eliminar este cliente?")) {
-                fetch(`http://localhost:5000/client/${id}`, {
+                fetch(`https://calm-peak-00131-243c55c55205.herokuapp.com/client/${id}`, {
                     method: "DELETE"
                 })
                     .then(response => response.json())

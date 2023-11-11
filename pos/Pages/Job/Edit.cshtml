@@ -50,7 +50,7 @@
             const saveButton = document.getElementById("saveButton");
             
             const loadData = () => {
-                fetch(`http://localhost:5000/job/${id}`)
+                fetch(`https://calm-peak-00131-243c55c55205.herokuapp.com/job/${id}`)
                     .then(response => response.json())
                     .then(data => {
                         nameInput.value = data.name;
@@ -105,7 +105,7 @@
                 
                 console.log(data);
                 
-                fetch(`http://localhost:5000/job/${id}`, {
+                fetch(`https://calm-peak-00131-243c55c55205.herokuapp.com/job/${id}`, {
                     method: "PUT",
                     headers: {
                         "Content-Type": "application/json"

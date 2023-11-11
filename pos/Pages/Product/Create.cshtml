@@ -104,20 +104,19 @@
                 const providerCheckboxes = document.querySelectorAll("#providerCheckboxes .form-check-input");
                 const isAnyProviderChecked = Array.from(providerCheckboxes).some(checkbox => checkbox.checked);
                 if (!isAnyProviderChecked) {
-                    // Asumiendo que hay un elemento para mostrar el error de validación para los proveedores
-                    const providerErrorDisplay = document.getElementById('providerError'); // Este ID debe existir en tu HTML
-                    providerErrorDisplay.style.display = 'block'; // Mostrar mensaje de error
+                    const providerErrorDisplay = document.getElementById('providerError');
+                    providerErrorDisplay.style.display = 'block';
                     isValid = false;
                 } else {
-                    const providerErrorDisplay = document.getElementById('providerError'); // Este ID debe existir en tu HTML
-                    providerErrorDisplay.style.display = 'none'; // Ocultar mensaje de error
+                    const providerErrorDisplay = document.getElementById('providerError');
+                    providerErrorDisplay.style.display = 'none';
                 }
             
                 return isValid;
             };
         
             const loadCategories = () => {
-                fetch("http://localhost:5000/category/")
+                fetch("https://calm-peak-00131-243c55c55205.herokuapp.com/category/")
                     .then(response => {
                         if (!response.ok) {
                             throw new Error("Network response was not ok.");
@@ -147,7 +146,7 @@
             };
         
             const loadProviders = () => {
-                fetch("http://localhost:5000/provider/")
+                fetch("https://calm-peak-00131-243c55c55205.herokuapp.com/provider/")
                     .then(response => {
                         if (!response.ok) {
                             throw new Error('Network response was not ok.');
@@ -204,7 +203,7 @@
                     provider: selectedProviders
                 };
                 
-                fetch("http://localhost:5000/product/", {
+                fetch("https://calm-peak-00131-243c55c55205.herokuapp.com/product/", {
                     method: "POST",
                     headers: {
                         "Content-Type": "application/json"

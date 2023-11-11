@@ -98,7 +98,7 @@
             }
 
             const loadJobs = () => {
-                fetch("http://localhost:5000/job/")
+                fetch("https://calm-peak-00131-243c55c55205.herokuapp.com/job/")
                     .then(response => {
                         if (!response.ok) {
                             throw new Error("Network response was not ok.");
@@ -125,7 +125,7 @@
             };
 
             const calculateSalary = (jobId) => {
-                fetch(`http://localhost:5000/job/${jobId}`)
+                fetch(`https://calm-peak-00131-243c55c55205.herokuapp.com/job/${jobId}`)
                     .then(response => response.json())
                     .then(data => {
                         salaryInput.value = "$" + data.salary;
@@ -145,7 +145,7 @@
                 
                 console.log(worker);
 
-                fetch("http://localhost:5000/worker/", {
+                fetch("https://calm-peak-00131-243c55c55205.herokuapp.com/worker/", {
                     method: "POST",
                     headers: {
                         "Content-Type": "application/json"

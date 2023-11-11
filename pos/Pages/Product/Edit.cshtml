@@ -123,36 +123,34 @@
                 const providerCheckboxes = document.querySelectorAll("#providerCheckboxes .form-check-input");
                 const isAnyProviderChecked = Array.from(providerCheckboxes).some(checkbox => checkbox.checked);
                 if (!isAnyProviderChecked) {
-                    // Asumiendo que hay un elemento para mostrar el error de validación para los proveedores
-                    const providerErrorDisplay = document.getElementById('providerError'); // Este ID debe existir en tu HTML
-                    providerErrorDisplay.style.display = 'block'; // Mostrar mensaje de error
+                    const providerErrorDisplay = document.getElementById('providerError'); 
+                    providerErrorDisplay.style.display = 'block'; 
                     isValid = false;
                 } else {
-                    const providerErrorDisplay = document.getElementById('providerError'); // Este ID debe existir en tu HTML
-                    providerErrorDisplay.style.display = 'none'; // Ocultar mensaje de error
+                    const providerErrorDisplay = document.getElementById('providerError'); 
+                    providerErrorDisplay.style.display = 'none'; 
                 }
             
                 return isValid;
             };
 
             const loadData = () => {
-                fetch(`http://localhost:5000/product/${id}`)
+                fetch(`https://calm-peak-00131-243c55c55205.herokuapp.com/product/${id}`)
                     .then(response => response.json())
                     .then(async data => {
                         nameInput.value = data.name;
                         descriptionInput.value = data.description;
                         priceInput.value = data.price;
                         stockInput.value = data.stock;
-                        await loadCategories();
-                        categorySelect.value = data.category._id;
-            
+                        //categorySelect.value = data.category._id;
+                        await loadCategories(data.category);
                         await loadProviders(data.provider); // Pasamos los proveedores actuales como argumento
                     })
                     .catch(error => console.error("Error al obtener producto: ", error));
             }
         
-            const loadCategories = () => {
-                fetch("http://localhost:5000/category/")
+            const loadCategories = (currentCategory) => {
+                fetch("https://calm-peak-00131-243c55c55205.herokuapp.com/category/")
                     .then(response => {
                         if (!response.ok) {
                             throw new Error("Network response was not ok.");
@@ -174,13 +172,18 @@
                             option.textContent = category.name;
                             categorySelect.appendChild(option);
                         });
+                        
+                        // current caregory
+                        if (currentCategory) {
+                            categorySelect.value = currentCategory._id;
+                        }
                     })
                     .catch(error => console.error("Error al cargar categorías: ", error));
             }
      
             const loadProviders = (currentProviders) => {
                 console.log(currentProviders);
-                fetch("http://localhost:5000/provider/")
+                fetch("https://calm-peak-00131-243c55c55205.herokuapp.com/provider/")
                     .then(response => {
                         if (!response.ok) {
                             throw new Error('Network response was not ok.');
@@ -217,7 +220,7 @@
                             providerCheckboxes.appendChild(checkboxContainer);
                         });
             
-                        // Después de crear las casillas, establece la selección basándote en los proveedores actuales
+                        // current Providers
                         currentProviders.forEach(provider => {
                             console.log(provider._id);
                             const providerCheckbox = document.getElementById("provider" + provider._id);
@@ -247,7 +250,7 @@
                 
                 console.log(product);
                 
-                fetch(`http://localhost:5000/product/${id}`, {
+                fetch(`https://calm-peak-00131-243c55c55205.herokuapp.com/product/${id}`, {
                     method: "PUT",
                     headers: {
                         "Content-Type": "application/json"

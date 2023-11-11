@@ -62,7 +62,7 @@
             const providerCheckboxes = document.getElementById("providerCheckboxes");
             
             const loadData = () => {
-                fetch(`http://localhost:5000/product/${id}`)
+                fetch(`https://calm-peak-00131-243c55c55205.herokuapp.com/product/${id}`)
                     .then(response => response.json())
                     .then(async data => {
                         nameInput.value = data.name;

@@ -99,7 +99,7 @@
             };    
             
             const loadData = () => {
-                fetch(`http://localhost:5000/client/${id}`)
+                fetch(`https://calm-peak-00131-243c55c55205.herokuapp.com/client/${id}`)
                     .then(response => response.json())
                     .then(data => {
                         nameInput.value = data.name;
@@ -126,7 +126,7 @@
                     phone: phoneInput.value
                 }
                 
-                fetch(`http://localhost:5000/client/${id}`, {
+                fetch(`https://calm-peak-00131-243c55c55205.herokuapp.com/client/${id}`, {
                     method: "PUT",
                     headers: {
                         "Content-Type": "application/json"

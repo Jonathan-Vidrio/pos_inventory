@@ -1,7 +1,4 @@
 @page
-@{
-    Layout = "_Layout";
-}
 
 <header class="text-center mb-5">
     <h4 class="display-4">Proveedores</h4>
@@ -12,8 +9,8 @@
         <thead>
         <tr>
             <th>Nombre</th>
-            <th>Primer Apellido</th>
-            <th>Segundo Apellido</th>
+            <th>Contacto</th>
+            <th>Observaciones</th>
             <th>Teléfono</th>
             <th style="width: 14%">Actions</th>
         </tr>
@@ -28,7 +25,7 @@
     <script>
         const loadData = async () => {
             try {
-                const response = await fetch("http://localhost:5000/provider/");
+                const response = await fetch("https://calm-peak-00131-243c55c55205.herokuapp.com/provider/");
                 if (!response.ok) {
                     throw new Error("Error al obtener los datos de la API");
                 }
@@ -62,7 +59,7 @@
         
         const remove = (id) => {
             if (confirm("¿Estás seguro que deseas eliminar esta Categoría?")) {
-                fetch(`http://localhost:5000/provider/${id}`, {
+                fetch(`https://calm-peak-00131-243c55c55205.herokuapp.com/provider/${id}`, {
                     method: "DELETE"
                 })
                 .then(response => {

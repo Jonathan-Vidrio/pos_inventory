@@ -43,7 +43,7 @@
         const saveButton = document.getElementById("saveButton");
         
         const loadData = async () => {
-            fetch(`http://localhost:5000/category/${id}`)
+            fetch(`https://calm-peak-00131-243c55c55205.herokuapp.com/category/${id}`)
             .then(response => {
                 if (!response.ok) {
                     throw new Error('Network response was not ok ' + response.statusText);
@@ -88,7 +88,7 @@
                description: descriptionInput.value
            };
            
-           fetch(`http://localhost:5000/category/${id}`, {
+           fetch(`https://calm-peak-00131-243c55c55205.herokuapp.com/category/${id}`, {
                method: "PUT",
                headers: {
                    "Content-Type": "application/json"

@@ -18,18 +18,15 @@
                 </div>
             </div>
             <div class="mb-3">
-                <label class="form-label">Primero Apellido</label>
+                <label class="form-label">Contacto</label>
                 <input id="firstSurnameInput" class="form-control" placeholder="Ingresa el Primer Apellido"/>
                 <div class="invalid-feedback">
-                    Por favor ingresa el primer apellido del proveedor.
+                    Por favor ingresa el contacto del proveedor.
                 </div>
             </div>
             <div class="mb-3">
-                <label class="form-label">Segundo Apellido</label>
+                <label class="form-label">Observaciones</label>
                 <input id="secondSurnameInput" class="form-control" placeholder="Ingresa el Segundo Apellido"/>
-                <div class="invalid-feedback">
-                    Por favor ingresa el segundo apellido del proveedor.
-                </div>
             </div>
             <div class="mb-3">
                 <label class="form-label">Número de Teléfono</label>
@@ -74,14 +71,6 @@
                 firstSurnameInput.classList.remove("is-invalid");
             }
             
-            // Validar Segundo Apellido
-            if (!secondSurnameInput.value.trim()) {
-                secondSurnameInput.classList.add("is-invalid");
-                isValid = false;
-            } else {
-                secondSurnameInput.classList.remove("is-invalid");
-            }
-            
             // Validar Número de Teléfono
             if (!phoneInput.value.trim()) {
                 phoneInput.classList.add("is-invalid");
@@ -103,7 +92,7 @@
                 phone: phoneInput.value
             }
             
-            fetch("http://localhost:5000/provider/", {
+            fetch("https://calm-peak-00131-243c55c55205.herokuapp.com/provider/", {
                 method: "POST",
                 headers: {
                     "Content-Type": "application/json"

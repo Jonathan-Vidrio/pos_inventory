@@ -102,18 +102,17 @@
 
             const loadData = async () => {
                 try {
-                    const workerResponse = await fetch(`http://localhost:5000/worker/${id}`);
+                    const workerResponse = await fetch(`https://calm-peak-00131-243c55c55205.herokuapp.com/worker/${id}`);
                     const workerData = await workerResponse.json();
                     
                     // Cargamos los trabajos antes de intentar asignarlos al select
-                    await loadJobs(); 
                     
                     nameInput.value = workerData.name;
                     firstSurnameInput.value = workerData.firstSurname;
                     secondSurnameInput.value = workerData.secondSurname;
-            
-                    // Ahora que los trabajos están cargados, podemos asignar el correcto
-                    jobSelect.value = workerData.jobId;
+                    
+                    //jobSelect.value = workerData.jobId;
+                    await loadJobs(workerData.job); 
                     salaryInput.value = workerData.job.salary;
             
                 } catch (error) {
@@ -122,8 +121,8 @@
                 }
             };
             
-            const loadJobs = async () => {
-                fetch("http://localhost:5000/job/")
+            const loadJobs = async (currentJob) => {
+                fetch("https://calm-peak-00131-243c55c55205.herokuapp.com/job/")
                     .then(response => {
                         if (!response.ok) {
                             throw new Error("Network response was not ok.");
@@ -145,13 +144,18 @@
                             option.innerText = item.name;
                             jobSelect.appendChild(option);
                         });
+                        
+                        // current job
+                        if (currentJob) {
+                            jobSelect.value = currentJob.id;
+                        }
                     })
                     .catch(error => console.error("Error: ", error));
             }
             
             const calculateSalary = () => {
                 const jobId = jobSelect.value;
-                fetch(`http://localhost:5000/job/${jobId}`)
+                fetch(`https://calm-peak-00131-243c55c55205.herokuapp.com/job/${jobId}`)
                     .then(response => response.json())
                     .then(data => {
                         salaryInput.value = data.salary;
@@ -171,7 +175,7 @@
                 
                 console.log(worker);
                 
-                fetch(`http://localhost:5000/worker/${id}`, {
+                fetch(`https://calm-peak-00131-243c55c55205.herokuapp.com/worker/${id}`, {
                     method: "PUT",
                     headers: {
                         "Content-Type": "application/json"
